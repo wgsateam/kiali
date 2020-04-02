@@ -1,9 +1,15 @@
 FROM registry.access.redhat.com/ubi7-minimal
 
+RUN microdnf -y update \
+    && microdnf -y install shadow-utils \
+    && microdnf clean all
+
 LABEL maintainer="kiali-dev@googlegroups.com"
 
 ENV KIALI_HOME=/opt/kiali \
     PATH=$KIALI_HOME:$PATH
+
+RUN useradd kiali -u 1337 -d $KIALI_HOME
 
 WORKDIR $KIALI_HOME
 
@@ -11,7 +17,8 @@ COPY kiali $KIALI_HOME/
 
 ADD console $KIALI_HOME/console/
 
-RUN chgrp -R 0 $KIALI_HOME/console && \
-    chmod -R g=u $KIALI_HOME/console
+RUN chmod -R 1337 $KIALI_HOME
+
+USER 1337
 
 ENTRYPOINT ["/opt/kiali/kiali"]

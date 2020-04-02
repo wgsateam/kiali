@@ -25,6 +25,11 @@ build: go-check
 	${GO_BUILD_ENVVARS} ${GO} build \
 		-o ${GOPATH}/bin/kiali -ldflags "-X main.version=${VERSION} -X main.commitHash=${COMMIT_HASH}"
 
+## build-in-docker
+build-in-docker:
+	@echo Building in docker...
+	docker run --rm -it -e GOPATH=/usr/src/myapp -v "${GOPATH}":/usr/src/myapp -w /usr/src/myapp/src/github.com/kiali/kiali/ golang:${GO_VERSION_KIALI} make build
+
 ## install: Install missing dependencies. Runs `go install` internally
 install:
 	@echo Installing...
