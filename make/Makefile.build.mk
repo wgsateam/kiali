@@ -28,7 +28,7 @@ build: go-check
 ## build-in-docker
 build-in-docker:
 	@echo Building in docker...
-	docker run --rm -it -e GOPATH=/usr/src/myapp -v "${GOPATH}":/usr/src/myapp -w /usr/src/myapp/src/github.com/kiali/kiali/ golang:${GO_VERSION_KIALI} make build
+	docker run --rm -i -e GOPATH=/usr/src/myapp -v "${GOPATH}":/usr/src/myapp -w /usr/src/myapp/src/github.com/kiali/kiali/ golang:${GO_VERSION_KIALI} make build
 
 ## install: Install missing dependencies. Runs `go install` internally
 install:
